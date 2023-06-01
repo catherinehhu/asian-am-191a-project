@@ -44,6 +44,7 @@ function addMarker(data){
         nonVaccinated.addLayer(L.circleMarker([data.lat,data.lng],circleOptions).bindPopup(`<h2>Non-Vaccinated</h2>`))
         createButtons(data.lat,data.lng,data['Where did you get vaccinated?'])
     }
+    // console.log("a")
     return data
 }
 

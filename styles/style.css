@@ -19,11 +19,11 @@ header{
     font-style: italic;
 }
 
-/* .main{
+.main{
     grid-area: main_content;
     grid-template-areas: "content" "main_map";
     display: grid;
-} */
+}
 
 #contents{
     grid-area: content;
@@ -82,6 +82,6 @@ nav {
   border-radius: 10%;
  }
 
- /* #theSurvey{
+ #theSurvey{
   grid-area: survey;
-} */
+}
