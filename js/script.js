@@ -1,5 +1,5 @@
 // declare variables
-let mapOptions = {'center': [34.0709,-118.444],'zoom':5}
+let mapOptions = {'center': [34.065,-118.444],'zoom':12}
 
 let zip1 = L.markerClusterGroup();
 let zip2 = L.markerClusterGroup();
@@ -116,6 +116,10 @@ function processData(results){
     results.data.forEach(data => {
         console.log(data)
         addMarker(data)
+        if(data["Please describe why you think this is the case."]){
+            createButtons(data.lat, data.lng, data)
+        }
+
     })
     zip1.addTo(map) // add our layers after markers have been made
     zip2.addTo(map) // add our layers after markers have been made  
@@ -129,6 +133,25 @@ function processData(results){
 
     let allLayers = L.featureGroup([zip1,zip2,zip3,zip4,zip5,zip6,zip7,zip8,zip9]);
     map.fitBounds(allLayers.getBounds());
+}
+
+function createButtons(lat,lng,data){
+    const item = document.createElement("list"); 
+    item.id = "button"; 
+    const itemspace = document.getElementById("stories");
+    itemspace.appendChild(item); 
+    // Button Text 
+    let text1 = data["Please describe why you think this is the case."];
+    // let text2 = "Is there anything else you'd like to share? " + data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"];  
+        item.innerHTML = `<li>${text1}</li>`; 
+        // item.innerHTML += "\n"; 
+        // item.innerHTML += `<li>${text2}</li>`; 
+        // console.log(text)
+    // Button Styling
+    item.style.margin = "10px";
+    item.style.color = "black"; 
+
+
 }
 
 loadData(dataUrl)
