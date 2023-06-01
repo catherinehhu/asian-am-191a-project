@@ -45,6 +45,15 @@ text-align: center;
   grid-area: stories; 
   overflow: auto; 
   height:80vh; 
+  padding:1rem; 
+  background-color: #dde7e8;
+
+}
+
+#stories p {
+  border: 1px solid black; 
+  padding: 0.5rem 1rem; 
+  margin: 0; 
 }
 
 h1, h2{
@@ -87,6 +96,6 @@ nav {
     text-decoration: underline;
   }
 
- #theSurvey{
+ /* #theSurvey{
   grid-area: survey;
-}
+} */

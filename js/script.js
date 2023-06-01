@@ -90,19 +90,6 @@ function addMarker(data){
     return data
 }
 
-// function createButtons(lat,lng,title){
-//     const newButton = document.createElement("button"); // adds a new button
-//     newButton.id = "button"+title; // gives the button a unique id
-//     newButton.innerHTML = title; // gives the button a title
-//     newButton.setAttribute("lat",lat); // sets the latitude 
-//     newButton.setAttribute("lng",lng); // sets the longitude 
-//     newButton.addEventListener('click', function(){
-//         map.flyTo([lat,lng]); //this is the flyTo from Leaflet
-//     })
-//     const spaceForButtons = document.getElementById('placeForButtons')
-//     spaceForButtons.appendChild(newButton);//this adds the button to our page.
-// }
-
 function loadData(url){
     Papa.parse(url, {
         header: true,
@@ -117,7 +104,7 @@ function processData(results){
         console.log(data)
         addMarker(data)
         if(data["Please describe why you think this is the case."]){
-            createButtons(data.lat, data.lng, data)
+            createList(data.lat, data.lng, data)
         }
 
     })
@@ -135,7 +122,7 @@ function processData(results){
     map.fitBounds(allLayers.getBounds());
 }
 
-function createButtons(lat,lng,data){
+function createList(lat,lng,data){
     const item = document.createElement("list"); 
     item.id = "button"; 
     const itemspace = document.getElementById("stories");
@@ -143,7 +130,7 @@ function createButtons(lat,lng,data){
     // Button Text 
     let text1 = data["Please describe why you think this is the case."];
     // let text2 = "Is there anything else you'd like to share? " + data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"];  
-        item.innerHTML = `<li>${text1}</li>`; 
+        item.innerHTML = `<p>${text1}</p>`; 
         // item.innerHTML += "\n"; 
         // item.innerHTML += `<li>${text2}</li>`; 
         // console.log(text)
