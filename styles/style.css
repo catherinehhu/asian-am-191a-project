@@ -23,7 +23,7 @@ header{
 
 .main{
     grid-area: main_content;
-    grid-template-areas: "main_map stories";
+    grid-template-areas: "main_map panel";
     grid-template-columns: 1fr 1fr;
     display: grid;
     grid-gap: 5rem;
@@ -39,21 +39,6 @@ text-align: center;
     grid-area: main_map;
     width:60vw; 
     
-}
-
-#stories{ 
-  grid-area: stories; 
-  overflow: auto; 
-  height:80vh; 
-  padding:1rem; 
-  background-color: #dde7e8;
-
-}
-
-#stories p {
-  border: 1px solid black; 
-  padding: 0.5rem 1rem; 
-  margin: 0; 
 }
 
 h1, h2{
@@ -96,6 +81,56 @@ nav {
     text-decoration: underline;
   }
 
- /* #theSurvey{
-  grid-area: survey;
-} */
+
+  .panel{ 
+    grid-area: panel; 
+    overflow: auto; 
+    height:80vh; 
+    padding:1rem; 
+    background-color: #dde7e8;
+    display: grid; 
+    grid-template-rows: 1fr 5fr;
+
+    grid-area: "buttons content";
+  }
+  
+/* Style the buttons inside the tab */
+.panel button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.panel button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.panel button.active {
+  background-color: #ccc;
+}
+
+.buttons{
+  grid-area: buttons; 
+}
+
+.contents{
+  grid-area: contents;
+}
+
+/* Style the tab content */
+.tabcontent {
+  padding: 6px 12px;
+  
+}
+
+.tabcontent p{
+  color: green; 
+  display: grid; 
+}

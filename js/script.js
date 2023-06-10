@@ -103,9 +103,9 @@ function processData(results){
     results.data.forEach(data => {
         console.log(data)
         addMarker(data)
-        if(data["Please describe why you think this is the case."]){
-            createList(data.lat, data.lng, data)
-        }
+        // if(data["Please describe why you think this is the case."]){
+        //     createList(data.lat, data.lng, data)
+        // }
 
     })
     zip1.addTo(map) // add our layers after markers have been made
@@ -122,23 +122,38 @@ function processData(results){
     map.fitBounds(allLayers.getBounds());
 }
 
-function createList(lat,lng,data){
-    const item = document.createElement("list"); 
-    item.id = "button"; 
-    const itemspace = document.getElementById("stories");
-    itemspace.appendChild(item); 
-    // Button Text 
-    let text1 = data["Please describe why you think this is the case."];
-    // let text2 = "Is there anything else you'd like to share? " + data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"];  
-        item.innerHTML = `<p>${text1}</p>`; 
-        // item.innerHTML += "\n"; 
-        // item.innerHTML += `<li>${text2}</li>`; 
-        // console.log(text)
-    // Button Styling
-    item.style.margin = "10px";
-    item.style.color = "black"; 
-
-
-}
+// function createList(lat,lng,data){
+//     const item = document.createElement("list"); 
+//     item.id = "button"; 
+//     const itemspace = document.getElementById("stories");
+//     itemspace.appendChild(item); 
+//     // Button Text 
+//     let text1 = data["Please describe why you think this is the case."];
+//     // let text2 = "Is there anything else you'd like to share? " + data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"];  
+//         item.innerHTML = `<p>${text1}</p>`; 
+//         // item.innerHTML += "\n"; 
+//         // item.innerHTML += `<li>${text2}</li>`; 
+//         // console.log(text)
+//     // Button Styling
+//     item.style.margin = "10px";
+//     item.style.color = "black"; 
+// }
 
 loadData(dataUrl)
+
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace("active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+  
+  // Get the element with id="defaultOpen" and click on it
+  document.getElementById("defaultOpen").click();
