@@ -18,7 +18,7 @@ var zips = {
 };
 
 // declare variables
-let mapOptions = {'center': [34.065,-118.444],'zoom':12}
+let mapOptions = {'center': [34.01,-118.37],'zoom':12}
 
 // let zip1 = L.markerClusterGroup();
 // let zip2 = L.markerClusterGroup();
@@ -123,14 +123,12 @@ function getColor(d) {
     console.log(shading)
     let x = shading[d]; // need to fix proportions and colors and math  
     console.log(shading[d])
-    return x > 5 ? '#800026' :
-           x > 4  ? '#BD0026' :
-           x > 3  ? '#FFEDA0' :
-           x > 2  ? '#FC4E2A' :
-           x > 1   ? '#FD8D3C' :
-           x > 0.2   ? '#FEB24C' :
-           x > 0.1   ? '#FED976' :
-                      '#000000';
+    return x >= 5 ? '#991f00' :
+           x >= 4  ? '#cc2900' :
+           x >= 3  ? '#ff3300' :
+           x >= 2  ? '#ff5c33' :
+           x >= 1   ? '#ff8566' :
+                      '#FFFFFF';
 }
 
 function style(feature) {
@@ -138,7 +136,7 @@ function style(feature) {
         fillColor: getColor(feature.properties.zcta),
         weight: 2,
         opacity: 1,
-        color: 'white',
+        color: "#8E270A",
         dashArray: '3',
         fillOpacity: 1
     };
@@ -151,7 +149,7 @@ function highlightFeature(e) {
 
     layer.setStyle({
         weight: 4,
-        color: '#666',
+        color: '#8E270A',
         dashArray: '',
         fillOpacity: 0.5, 
     });
