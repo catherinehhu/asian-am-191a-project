@@ -34,14 +34,13 @@ let liveZip = "";
 
 let layers;
 
-
 const dataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTR7i2UXl1U2jJIdL_L8F7W6240YGv7P1shmvWHM8hEaHMS1Zll0H9zRcg9UKcGRUik8wqO19qhDIJ/pub?output=csv"
 
 // define the leaflet map
 const map = L.map('the_map').setView(mapOptions.center, mapOptions.zoom);
 // L.geoJson(zips).addTo(map);
 // add layer control box
-L.control.layers(null,layers).addTo(map)
+//L.control.layers(null,layers).addTo(map)
 
 //map
 let Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
@@ -126,8 +125,8 @@ function getColor(d) {
     return x >= 5 ? '#991f00' :
            x >= 4  ? '#cc2900' :
            x >= 3  ? '#ff3300' :
-           x >= 2  ? '#ff5c33' :
-           x >= 1   ? '#ff8566' :
+           x >= 2  ? '#FF663F' :
+           x >= 1   ? '#FF967F' :
                       '#FFFFFF';
 }
 
@@ -209,3 +208,31 @@ function openTab(evt, tabname) {
   
   // Get the element with id="defaultOpen" and click on it
   document.getElementById("defaultOpen").click();
+
+//legend
+let legend = L.control({ position: "bottomleft" });
+legend.onAdd = function (map) {
+	let div = L.DomUtil.create("div", "info legend");
+
+	div.style.backgroundColor = "white";
+	div.style.padding = "10px";
+	div.style.borderRadius = "5px";
+	div.style.fontFamily = "font-family: 'Archivo', sans-serif"; //FIX THIS WITH UPDATED FONT
+
+	div.innerHTML =
+		"<b>Key:</b> Number of Responses<br><br>";
+
+	div.innerHTML +=
+		'<i style="background:#991f00; width: 18px; height: 18px; float: left; margin-right: 5px;"></i> ' +
+		"5+<br>" +
+		'<i style="background:#cc2900; width: 18px; height: 18px; float: left; margin-right: 5px;"></i> ' +
+		"4 &ndash; 5<br>" +
+		'<i style="background:#ff3300; width: 18px; height: 18px; float: left; margin-right: 5px;"></i> ' +
+		"3 &ndash; 4<br>" +
+		'<i style="background:#FF663F; width: 18px; height: 18px; float: left; margin-right: 5px;"></i> ' +
+        "2 &ndash; 3<br>" +
+        '<i style="background:#FF967F; width: 18px; height: 18px; float: left; margin-right: 5px;"></i> ' +
+		"1 &ndash; 2<br>";
+	return div;
+};
+legend.addTo(map);

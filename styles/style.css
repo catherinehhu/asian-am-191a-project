@@ -37,8 +37,9 @@ text-align: center;
 #the_map{
     height:80vh;
     grid-area: main_map;
-    width:60vw; 
-    
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));    
 }
 
 h1, h2{
@@ -128,3 +129,4 @@ nav {
 .tabcontent {
   padding: 6px 12px;
 }
+
