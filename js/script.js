@@ -20,38 +20,40 @@ var zips = {
 // declare variables
 let mapOptions = {'center': [34.065,-118.444],'zoom':12}
 
-let zip1 = L.markerClusterGroup();
-let zip2 = L.markerClusterGroup();
-let zip3 = L.markerClusterGroup();
-let zip4 = L.markerClusterGroup();
-let zip5 = L.markerClusterGroup();
-let zip6 = L.markerClusterGroup();
-let zip7 = L.markerClusterGroup();
-let zip8 = L.markerClusterGroup();
-let zip9 = L.markerClusterGroup();
+// let zip1 = L.markerClusterGroup();
+// let zip2 = L.markerClusterGroup();
+// let zip3 = L.markerClusterGroup();
+// let zip4 = L.markerClusterGroup();
+// let zip5 = L.markerClusterGroup();
+// let zip6 = L.markerClusterGroup();
+// let zip7 = L.markerClusterGroup();
+// let zip8 = L.markerClusterGroup();
+// let zip9 = L.markerClusterGroup();
 
 let liveZip = ""; 
 
-let layers = {
-    "90232": zip1,
-    "90034": zip2, 
-    "90230": zip3,
-    "90056": zip4,
-    "90043": zip5,
-    "90016": zip6,
-    "90019": zip7, 
-    "90302": zip8,
-    "90062": zip9
-}
+let layers;
 
-let circleOptions = {
-    radius: 4,
-    fillColor: "#ff7800",
-    color: "#000",
-    weight: 1,
-    opacity: 1,
-    fillOpacity: 0.8
-}
+// let layers = {
+//     "90232": zip1,
+//     "90034": zip2, 
+//     "90230": zip3,
+//     "90056": zip4,
+//     "90043": zip5,
+//     "90016": zip6,
+//     "90019": zip7, 
+//     "90302": zip8,
+//     "90062": zip9
+// }
+
+// let circleOptions = {
+//     radius: 4,
+//     fillColor: "#ff7800",
+//     color: "#000",
+//     weight: 1,
+//     opacity: 1,
+//     fillOpacity: 0.8
+// }
 
 const dataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTR7i2UXl1U2jJIdL_L8F7W6240YGv7P1shmvWHM8hEaHMS1Zll0H9zRcg9UKcGRUik8wqO19qhDIJ/pub?output=csv"
 
@@ -68,6 +70,104 @@ let Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/r
 });
 
 Esri_WorldGrayCanvas.addTo(map);
+
+// function addMarker(data){
+//     if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90232"){
+//         circleOptions.fillColor = "red"
+//         zip1.addLayer(L.circleMarker([data.lat,data.lng],circleOptions))
+//         }
+//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90034") {
+//         circleOptions.fillColor = "red"
+//         zip2.addLayer(L.circleMarker([data.lat,data.lng],circleOptions))
+//     }
+//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90230") {
+//         circleOptions.fillColor = "red"
+//         zip3.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
+//     }
+//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90056") {
+//         circleOptions.fillColor = "red"
+//         zip4.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
+//     }
+//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90043") {
+//         circleOptions.fillColor = "red"
+//         zip5.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
+//     }
+//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90016") {
+//         circleOptions.fillColor = "red"
+//         zip6.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
+//     }
+//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90019") {
+//         circleOptions.fillColor = "red"
+//         zip7.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
+//     }
+//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90302") {
+//         circleOptions.fillColor = "red"
+//         zip8.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
+//     }
+//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90062") {
+//         circleOptions.fillColor = "red"
+//         zip9.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
+//     }
+//     // console.log("a")
+//     return data
+// }
+
+function loadData(url){
+    Papa.parse(url, {
+        header: true,
+        download: true,
+        complete: results => processData(results)
+    })
+}
+
+let count90232 = 0;
+let count90034 = 0; 
+let count90230 = 0;
+let count90056 = 0;
+let count90043 = 0;
+let count90016 = 0;
+let count90019 = 0;
+let count90302 = 0;
+let count90062 = 0;
+
+const shading = {};
+
+function processData(results){
+    console.log(results)
+    results.data.forEach(data => {
+       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90232") {
+        count90232++;
+        shading.zip90232 = "count90232";
+       }
+       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90034") {
+        count90034++;
+       }
+       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90230") {
+        count90230++;
+       }
+       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90056") {
+        count90056++;
+       }
+       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90043") {
+        count90043++;
+       }
+       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90016") {
+        count90016++;
+       }
+       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90019") {
+        count90019++;
+       }
+       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90302") {
+        count90302++;
+       }
+       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90062") {
+        count90062++;
+       }
+        console.log(data)
+        createStory(data.lat, data.lng, data)
+    })
+    map.fitBounds(allLayers.getBounds());
+}
 
 function getColor(d) {
     return d > 1000 ? '#800026' :
@@ -128,78 +228,6 @@ geojson = L.geoJson(zips, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
-
-
-
-function addMarker(data){
-    if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90232"){
-        circleOptions.fillColor = "red"
-        zip1.addLayer(L.circleMarker([data.lat,data.lng],circleOptions))
-        }
-    else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90034") {
-        circleOptions.fillColor = "red"
-        zip2.addLayer(L.circleMarker([data.lat,data.lng],circleOptions))
-    }
-    else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90230") {
-        circleOptions.fillColor = "red"
-        zip3.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-    }
-    else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90056") {
-        circleOptions.fillColor = "red"
-        zip4.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-    }
-    else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90043") {
-        circleOptions.fillColor = "red"
-        zip5.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-    }
-    else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90016") {
-        circleOptions.fillColor = "red"
-        zip6.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-    }
-    else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90019") {
-        circleOptions.fillColor = "red"
-        zip7.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-    }
-    else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90302") {
-        circleOptions.fillColor = "red"
-        zip8.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-    }
-    else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90062") {
-        circleOptions.fillColor = "red"
-        zip9.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-    }
-    // console.log("a")
-    return data
-}
-
-function loadData(url){
-    Papa.parse(url, {
-        header: true,
-        download: true,
-        complete: results => processData(results)
-    })
-}
-
-function processData(results){
-    console.log(results)
-    results.data.forEach(data => {
-        console.log(data)
-        addMarker(data)
-        createStory(data.lat, data.lng, data)
-    })
-    zip1.addTo(map) // add our layers after markers have been made
-    zip2.addTo(map) // add our layers after markers have been made  
-    zip3.addTo(map) // add our layers after markers have been made
-    zip4.addTo(map) // add our layers after markers have been made
-    zip5.addTo(map) // add our layers after markers have been made
-    zip6.addTo(map) // add our layers after markers have been made
-    zip7.addTo(map) // add our layers after markers have been made
-    zip8.addTo(map) // add our layers after markers have been made
-    zip9.addTo(map) // add our layers after markers have been made
-
-    let allLayers = L.featureGroup([zip1,zip2,zip3,zip4,zip5,zip6,zip7,zip8,zip9]);
-    map.fitBounds(allLayers.getBounds());
-}
 
 
 function createStory(lat,lng,data){
