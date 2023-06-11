@@ -49,6 +49,9 @@ var Stadia_AlidadeSmooth = L.tileLayer('https://tiles.stadiamaps.com/tiles/alida
 
 Stadia_AlidadeSmooth.addTo(map);
 
+
+
+
 function addMarker(data){
     if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90232"){
         circleOptions.fillColor = "red"
@@ -90,18 +93,6 @@ function addMarker(data){
     return data
 }
 
-// function createButtons(lat,lng,title){
-//     const newButton = document.createElement("button"); // adds a new button
-//     newButton.id = "button"+title; // gives the button a unique id
-//     newButton.innerHTML = title; // gives the button a title
-//     newButton.setAttribute("lat",lat); // sets the latitude 
-//     newButton.setAttribute("lng",lng); // sets the longitude 
-//     newButton.addEventListener('click', function(){
-//         map.flyTo([lat,lng]); //this is the flyTo from Leaflet
-//     })
-//     const spaceForButtons = document.getElementById('placeForButtons')
-//     spaceForButtons.appendChild(newButton);//this adds the button to our page.
-// }
 
 function loadData(url){
     Papa.parse(url, {
