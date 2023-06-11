@@ -34,26 +34,6 @@ let liveZip = "";
 
 let layers;
 
-// let layers = {
-//     "90232": zip1,
-//     "90034": zip2, 
-//     "90230": zip3,
-//     "90056": zip4,
-//     "90043": zip5,
-//     "90016": zip6,
-//     "90019": zip7, 
-//     "90302": zip8,
-//     "90062": zip9
-// }
-
-// let circleOptions = {
-//     radius: 4,
-//     fillColor: "#ff7800",
-//     color: "#000",
-//     weight: 1,
-//     opacity: 1,
-//     fillOpacity: 0.8
-// }
 
 const dataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTR7i2UXl1U2jJIdL_L8F7W6240YGv7P1shmvWHM8hEaHMS1Zll0H9zRcg9UKcGRUik8wqO19qhDIJ/pub?output=csv"
 
@@ -71,46 +51,6 @@ let Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/r
 
 Esri_WorldGrayCanvas.addTo(map);
 
-// function addMarker(data){
-//     if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90232"){
-//         circleOptions.fillColor = "red"
-//         zip1.addLayer(L.circleMarker([data.lat,data.lng],circleOptions))
-//         }
-//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90034") {
-//         circleOptions.fillColor = "red"
-//         zip2.addLayer(L.circleMarker([data.lat,data.lng],circleOptions))
-//     }
-//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90230") {
-//         circleOptions.fillColor = "red"
-//         zip3.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-//     }
-//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90056") {
-//         circleOptions.fillColor = "red"
-//         zip4.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-//     }
-//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90043") {
-//         circleOptions.fillColor = "red"
-//         zip5.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-//     }
-//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90016") {
-//         circleOptions.fillColor = "red"
-//         zip6.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-//     }
-//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90019") {
-//         circleOptions.fillColor = "red"
-//         zip7.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-//     }
-//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90302") {
-//         circleOptions.fillColor = "red"
-//         zip8.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-//     }
-//     else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90062") {
-//         circleOptions.fillColor = "red"
-//         zip9.addLayer(L.circleMarker([data.lat,data.lng],circleOptions)) 
-//     }
-//     // console.log("a")
-//     return data
-// }
 
 function loadData(url){
     Papa.parse(url, {
@@ -173,6 +113,9 @@ function processData(results){
     })
     // map.fitBounds(allLayers.getBounds());
     console.log(shading)
+    L.geoJson(zips, {
+    style: style,
+    }).addTo(map);
 
 }
 
@@ -187,7 +130,7 @@ function getColor(d) {
            x > 1   ? '#FD8D3C' :
            x > 0.2   ? '#FEB24C' :
            x > 0.1   ? '#FED976' :
-                      '#ffffff';
+                      '#000000';
 }
 
 function style(feature) {
@@ -201,9 +144,7 @@ function style(feature) {
     };
 }
 
-L.geoJson(zips, {
-    style: style,
-}).addTo(map);
+
 
 function highlightFeature(e) {
     var layer = e.target;
