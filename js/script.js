@@ -113,11 +113,11 @@ function processData(results){
     })
     // map.fitBounds(allLayers.getBounds());
     console.log(shading)
-    L.geoJson(zips, {
+}
+
+L.geoJson(zips, {
     style: style,
     }).addTo(map);
-
-}
 
 function getColor(d) {
     console.log(shading)
