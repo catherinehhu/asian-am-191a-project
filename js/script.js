@@ -18,7 +18,7 @@ var zips = {
 };
 
 // declare variables
-let mapOptions = {'center': [34.01,-118.37],'zoom':12}
+let mapOptions = {'center': [34.01,-118.34],'zoom':12}
 
 // let zip1 = L.markerClusterGroup();
 // let zip2 = L.markerClusterGroup();
@@ -154,10 +154,12 @@ function highlightFeature(e) {
     });
 
     layer.bringToFront();
+    info.update(layer.feature.properties);
 }
 
 function resetHighlight(e) {
     geojson.resetStyle(e.target);
+    info.update();
 }
 
 function clickAZipCode(e) {
@@ -210,7 +212,7 @@ function openTab(evt, tabname) {
   document.getElementById("defaultOpen").click();
 
 //legend
-let legend = L.control({ position: "bottomleft" });
+let legend = L.control({ position: "bottomright" });
 legend.onAdd = function (map) {
 	let div = L.DomUtil.create("div", "info legend");
 
@@ -236,3 +238,21 @@ legend.onAdd = function (map) {
 	return div;
 };
 legend.addTo(map);
+
+//info pop-up for mouseover
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (zips) {
+    this._div.innerHTML = '<h4>Zip Code Information</h4>' +  (zips ?
+        '<b>' + zips.zcta + '</b><br />' + shading[zips.zcta] + ' responses'
+        : 'Hover over a region');
+};
+
+info.addTo(map);
