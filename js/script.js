@@ -59,7 +59,7 @@ const dataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTR7i2UXl1U2jJ
 
 // define the leaflet map
 const map = L.map('the_map').setView(mapOptions.center, mapOptions.zoom);
-L.geoJson(zips).addTo(map);
+// L.geoJson(zips).addTo(map);
 // add layer control box
 L.control.layers(null,layers).addTo(map)
 
@@ -120,86 +120,99 @@ function loadData(url){
     })
 }
 
-let count90232 = 0;
-let count90034 = 0; 
-let count90230 = 0;
-let count90056 = 0;
-let count90043 = 0;
-let count90016 = 0;
-let count90019 = 0;
-let count90302 = 0;
-let count90062 = 0;
+loadData(dataUrl)
 
-const shading = {};
+let shading = {
+    "90232": 0,
+    "90034": 0,
+    "90230": 0, 
+    "90056": 0, 
+    "90043": 0, 
+    "90016": 0, 
+    "90019": 0, 
+    "90302": 0, 
+    "90062": 0, 
+    "90008": 0
+};
 
+let responseLength = 0; 
 function processData(results){
-    console.log(results)
+    responseLength = results.length; 
     results.data.forEach(data => {
        if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90232") {
-        count90232++;
-        shading.zip90232 = "count90232";
+        shading["90232"]++;
        }
-       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90034") {
-        count90034++;
+       else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90034") {
+        shading["90034"]++;
        }
-       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90230") {
-        count90230++;
+       else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90230") {
+        shading["90230"]++;
        }
-       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90056") {
-        count90056++;
+       else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90056") {
+        shading["90056"]++;
        }
-       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90043") {
-        count90043++;
+       else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90043") {
+        shading["90043"]++;
        }
-       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90016") {
-        count90016++;
+       else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90016") {
+        shading["90016"]++;
        }
-       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90019") {
-        count90019++;
+       else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90019") {
+        shading["90019"]++;
        }
-       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90302") {
-        count90302++;
+       else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90302") {
+        shading["90302"]++;
        }
-       if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90062") {
-        count90062++;
+       else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90062") {
+        shading["90062"]++;
        }
-        console.log(data)
+       else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90008") {
+        shading["90008"]++;
+       }
         createStory(data.lat, data.lng, data)
     })
-    map.fitBounds(allLayers.getBounds());
+    // map.fitBounds(allLayers.getBounds());
+    console.log(shading)
+
 }
 
 function getColor(d) {
-    return d > 1000 ? '#800026' :
-           d > 500  ? '#BD0026' :
-           d > 200  ? '#E31A1C' :
-           d > 100  ? '#FC4E2A' :
-           d > 50   ? '#FD8D3C' :
-           d > 20   ? '#FEB24C' :
-           d > 10   ? '#FED976' :
-                      '#FFEDA0';
+    console.log(shading)
+    let x = shading[d]; // need to fix proportions and colors and math  
+    console.log(shading[d])
+    return x > 5 ? '#800026' :
+           x > 4  ? '#BD0026' :
+           x > 3  ? '#FFEDA0' :
+           x > 2  ? '#FC4E2A' :
+           x > 1   ? '#FD8D3C' :
+           x > 0.2   ? '#FEB24C' :
+           x > 0.1   ? '#FED976' :
+                      '#ffffff';
 }
+
 function style(feature) {
     return {
-        fillColor: getColor(feature.properties.density),
+        fillColor: getColor(feature.properties.zcta),
         weight: 2,
         opacity: 1,
         color: 'white',
         dashArray: '3',
-        fillOpacity: 0.7
+        fillOpacity: 1
     };
 }
 
-L.geoJson(zips, {style: style}).addTo(map);
+L.geoJson(zips, {
+    style: style,
+}).addTo(map);
 
 function highlightFeature(e) {
     var layer = e.target;
 
     layer.setStyle({
-        weight: 5,
+        weight: 4,
         color: '#666',
         dashArray: '',
-        fillOpacity: 0.7
+        fillOpacity: 0.5, 
     });
 
     layer.bringToFront();
@@ -211,16 +224,14 @@ function resetHighlight(e) {
 
 function clickAZipCode(e) {
     map.fitBounds(e.target.getBounds()); 
-    console.log(e.target.feature.properties["zcta"])
-    liveZip = e.target.feature.properties["zcta"]; 
-    console.log(liveZip)
+    liveZip = e.target.feature.properties.zcta; 
 }
 
 function onEachFeature(feature, layer) {
     layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: clickAZipCode, highlightFeature
+        click: clickAZipCode,
     });
 }
 
@@ -228,7 +239,6 @@ geojson = L.geoJson(zips, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
-
 
 function createStory(lat,lng,data){
     const item = document.createElement("list"); 
@@ -242,7 +252,6 @@ function createStory(lat,lng,data){
         item.innerHTML += `<li>${text2}</li>`; 
 }
 
-loadData(dataUrl)
 
 function openTab(evt, tabname) {
     var i, tabcontent, tablinks;
@@ -257,6 +266,7 @@ function openTab(evt, tabname) {
     document.getElementById(tabname).style.display = "block";
     evt.currentTarget.className += " active";
   }
+
   
   // Get the element with id="defaultOpen" and click on it
   document.getElementById("defaultOpen").click();
