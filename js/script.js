@@ -252,7 +252,7 @@ info.onAdd = function (map) {
 info.update = function (zips) {
     this._div.innerHTML = '<h4>Zip Code Information</h4>' +  (zips ?
         '<b>' + zips.zcta + '</b><br />' + shading[zips.zcta] + ' responses'
-        : 'Hover over a region');
+        : 'Hover over a region <br> to learn more.');
 };
 
 info.addTo(map);
