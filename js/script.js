@@ -225,23 +225,27 @@ function createStory(results, currZip){
     itemspace.appendChild(item); 
     
     let count = 0; 
+    let length = results.data.length; 
     results.data.forEach(data => {
-        if (data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
+        if (data["Please select your preferred language / Elige el idioma preferido. "] == "English" && data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
     {
         count++; 
-        let text1 = ""; 
-        let text2 = ""; 
+        item.innerHTML += `<p>Story ${count} of ${length}</p>`; 
+        item.innerHTML += `<p><strong>Race: </strong>${data["Which of the following best describe you?"]}</p>`
+        item.innerHTML += `<p><strong>Aware of nearby oil sites: </strong>${data["Are you aware of any oil drilling sites near the primary residence you mentioned above? "]}</p>`
+        item.innerHTML += `<p><strong>Effect of proximity to nearby oil sites on quality of life: </strong>${data["Do you think residing near oil drilling sites has affected your quality of living? "]}</p>`
+        let healthtext = data["Are you aware of any health impacts of oil drilling?"]
         if (data["Please describe why you think this is the case."]){
-            text1 = data["Please describe why you think this is the case."]; 
-            item.innerHTML = `<p>Story ${count}</p><li>${text1}</li><p>hello</p>`; 
+            healthtext += " " + data["Please describe why you think this is the case."]; 
         }
+        item.innerHTML +=  `<p> <strong>Aware of health impacts of oil drilling: </strong>${healthtext}</p>`
+        if (data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"] != null){
+            item.innerHTML += `<p><strong>Is there anything else you'd like to share? </strong>${data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]}</p>`; }
+            item.innerHTML += `<hr>`
 
-        if (data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]){
-            text2 = data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]; 
-            item.innerHTML += "\n"; 
-            item.innerHTML += `<li>${text2}</li> <hr>`; }
         }
-    })
+    }
+    )
 }
 
 function createSummary(results, currZip){
@@ -253,7 +257,6 @@ function createSummary(results, currZip){
 
     item.id = "summarystuff"; 
     itemspace.appendChild(item)
-    let count = 0; 
     results.data.forEach(data => {
         if (data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
     {
