@@ -80,6 +80,8 @@ let responseLength = 0;
 function processData(results){
     responseLength = results.data.length; 
     console.log(results)
+    console.log("adjhsfglhjkds")
+    console.log(results.data["Do you think residing near oil drilling sites has affected your quality of living? "])
     results.data.forEach(data => {
        if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90232") {
         shading["90232"]++;
@@ -227,12 +229,13 @@ function createStory(results, currZip){
     let count = 0; 
     let length = shading[currZip]; 
     results.data.forEach(data => {
-        if (data["Please select your preferred language / Elige el idioma preferido. "] == "English" && data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
+        if (data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
     {
         count++; 
         item.innerHTML += `<p>Story ${count} of ${length}</p>`; 
         item.innerHTML += `<p><strong>Race: </strong>${data["Which of the following best describe you?"]}</p>`
         item.innerHTML += `<p><strong>Aware of nearby oil sites: </strong>${data["Are you aware of any oil drilling sites near the primary residence you mentioned above? "]}</p>`
+        console.log(data["Do you think residing near oil drilling sites has affected your quality of living? "])
         item.innerHTML += `<p><strong>Effect of proximity to nearby oil sites on quality of life: </strong>${data["Do you think residing near oil drilling sites has affected your quality of living? "]}</p>`
         let healthtext = data["Are you aware of any health impacts of oil drilling?"]
         if (data["Please describe why you think this is the case."]){
@@ -240,10 +243,14 @@ function createStory(results, currZip){
         }
         item.innerHTML +=  `<p> <strong>Aware of health impacts of oil drilling: </strong>${healthtext}</p>`
         if (data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"] != null){
-            item.innerHTML += `<p><strong>Is there anything else you'd like to share? </strong>${data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]}</p>`; }
-            item.innerHTML += `<hr>`
-
+            item.innerHTML += `<p><strong>Is there anything else you'd like to share? </strong>${data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]}</p>`; 
         }
+        if (data["Please select your preferred language / Elige el idioma preferido. "] == "Español")
+        {
+            item.innerHTML += `<p><i>Response translated from Spanish using Google Translate</i></p>`}
+            item.innerHTML += `<hr>`
+        }
+        
     }
     )
 }
@@ -254,25 +261,52 @@ function createSummary(results, currZip){
     const itemspace = document.getElementById("summary");
     itemspace.appendChild(item);
     item.innerHTML += `<h3>Zip Code: ${currZip}</h3>`; 
+    item.id = "dataviz";
+    itemspace.appendChild(item); 
 
-    item.id = "summarystuff"; 
-    itemspace.appendChild(item)
-    results.data.forEach(data => {
-        if (data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
-    {
-        let text1 = ""; 
-        let text2 = ""; 
-        if (data["Please describe why you think this is the case."]){
-            text1 = data["Please describe why you think this is the case."]; 
-            item.innerHTML += `<li>${text1}</li>`; 
-        }
+    var width = 450
+    height = 450
+    margin = 40
 
-        if (data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]){
-            text2 = data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]; 
-            item.innerHTML += "\n"; 
-            item.innerHTML += `<li>${text2}</li>`; }
-        }
-    })
+// The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+var radius = Math.min(width, height) / 2 - margin
+
+// append the svg object to the div called 'my_dataviz'
+var svg = d3.select("#dataviz")
+  .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+  .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+// Create dummy data
+var data = {a: 9, b: 20, c:30, d:8, e:12}
+
+// set the color scale
+var color = d3.scaleOrdinal()
+  .domain(data)
+  .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"])
+
+// Compute the position of each group on the pie:
+var pie = d3.pie()
+  .value(function(d) {return d.value; })
+var data_ready = pie(d3.entries(data))
+
+// Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+svg
+  .selectAll('whatever')
+  .data(data_ready)
+  .enter()
+  .append('path')
+  .attr('d', d3.arc()
+    .innerRadius(0)
+    .outerRadius(radius)
+  )
+  .attr('fill', function(d){ return(color(d.data.key)) })
+  .attr("stroke", "black")
+  .style("stroke-width", "2px")
+  .style("opacity", 0.7)
+
 }
 
 function openTab(evt, tabname) {
@@ -373,3 +407,4 @@ btn.onclick = function() {
 span.onclick = function() {
   modal2.style.display = "none";
 }
+
