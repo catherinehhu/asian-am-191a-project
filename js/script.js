@@ -20,15 +20,6 @@ var zips = {
 // declare variables
 let mapOptions = {'center': [34.01,-118.34],'zoom':12}
 
-// let zip1 = L.markerClusterGroup();
-// let zip2 = L.markerClusterGroup();
-// let zip3 = L.markerClusterGroup();
-// let zip4 = L.markerClusterGroup();
-// let zip5 = L.markerClusterGroup();
-// let zip6 = L.markerClusterGroup();
-// let zip7 = L.markerClusterGroup();
-// let zip8 = L.markerClusterGroup();
-// let zip9 = L.markerClusterGroup();
 
 let liveZip = ""; 
 
@@ -38,9 +29,7 @@ const dataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTR7i2UXl1U2jJ
 
 // define the leaflet map
 const map = L.map('the_map').setView(mapOptions.center, mapOptions.zoom);
-// L.geoJson(zips).addTo(map);
-// add layer control box
-//L.control.layers(null,layers).addTo(map)
+
 
 //map
 let Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
@@ -265,88 +254,114 @@ function createSummary(results, currZip){
     itemspace.appendChild(item); 
 
     if (shading[currZip] > 0){
-            let groups = {
-                    "White or Caucasian": 0,
-                    "Asian or Pacific Islander": 0,
-                    "Hispanic or Latino": 0, 
-                    "Black or African American": 0, 
-                    "Prefer not to say": 0, 
-                    "Multiracial or biracial": 0, 
-                    "Native American or Alaskan Native": 0 
-                };
+            let groups = [
+                {"group": "White or Caucasian", "count": 0}, 
+                {"group": "Asian or Pacific Islander", "count": 0},
+                {"group": "Hispanic or Latino", "count": 0},
+                {"group": "Black or African American", "count": 0}, 
+                {"group": "Native American or Alaskan Native", "count": 0},
+                {"group": "Multiracial or biracial", "count": 0}, 
+                {"group": "Prefer not to say", "count": 0}
+            ]
+
                 results.data.forEach(data => {
                     if (data["Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal."] == currZip){
                         if (data["Which of the following best describe you?"].includes("White")){
-                            groups["White or Caucasian"]++; 
+                            groups[0]["count"]++; 
                         }
                         else if (data["Which of the following best describe you?"].includes("Asian")){
-                            groups["Asian or Pacific Islander"]++; 
+                            groups[1]["count"]++; 
                         }
                         else if (data["Which of the following best describe you?"].includes("Hispanic")){
-                            groups["Hispanic or Latino"]++
+                            groups[2]["count"]++
                         }
                         else if (data["Which of the following best describe you?"].includes("Black")){
-                            groups["Black or African American"]++
+                            groups[3]["count"]++
                         }
                         else if (data["Which of the following best describe you?"].includes("Native")){
-                            groups["Native American or Alaskan Native"]++
-                        }
-                        else if (data["Which of the following best describe you?"].includes("Prefer")){
-                            groups["Prefer not to say"]++
+                            groups[4]["count"]++
                         }
                         else if (data["Which of the following best describe you?"].includes("Multiracial") || data["Which of the following best describe you?"].includes("Multirraccial")){
-                            groups["Multiracial or biracial"]++
-                        }}
+                            groups[5]["count"]++
+                        }
+                        else if (data["Which of the following best describe you?"].includes("refer")){
+                            groups[6]["count"]++
+                        }
+                    }
                     }
                 )
-                var width = 450
-                height = 450
-                margin = 40
+            var svgCirWidth = 600, svgCirHeight = 300, radius = Math.min(svgCirWidth, svgCirHeight) / 2;
+
+            const pieContainer = d3.select("#dataviz")
+                .append("svg")
+                .attr("width", svgCirWidth)
+                .attr("height", svgCirHeight);
             
-            // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-            var radius = Math.min(width, height) / 2 - margin
+            //create group element to hold pie chart
             
-            // append the svg object to the div called 'my_dataviz'
-            var svg = d3.select("#dataviz")
-              .append("svg")
-                .attr("width", width)
-                .attr("height", height)
-              .append("g")
-                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+            var g = pieContainer.append("g")
+                .attr("transform", "translate(" + 250 + "," + radius + ")");
             
-            // Create dummy data
-            // var data = {a: 9, b: 20, c:30, d:8, e:12}
             
-            // set the color scale
             var color = d3.scaleOrdinal()
-              .domain(groups)
-              .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#ffffff", "#000000"])
+                .domain(groups)
+                .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
             
-            // Compute the position of each group on the pie:
-            var pie = d3.pie()
-              .value(function(d) {return d.value; })
-            var data_ready = pie(d3.entries(groups))
+            var pie = d3.pie().value(function (d) {
+                return d.count;
+            });
             
-            // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-            svg
-              .selectAll('whatever')
-              .data(data_ready)
-              .enter()
-              .append('path')
-              .attr('d', d3.arc()
-                .innerRadius(0)
+            var path = d3.arc()
                 .outerRadius(radius)
-              )
-              .attr('fill', function(d){ return(color(d.data.key)) })
-              .attr("stroke", "black")
-              .style("stroke-width", "2px")
-              .style("opacity", 0.7)
+                .innerRadius(0);
+            
+            var arc = g.selectAll("arc")
+                .data(pie(groups))
+                .enter() //means keeps looping in the data
+                .append("g");
+            
+            arc.append("path")
+                .attr("d", path)
+                .attr("fill", function (d) {
+                    return color(d.data.group);
+                })
+                .append("text")
+                .text("afdaf")
+            
+            var label = d3.arc()
+                .outerRadius(radius)
+                .innerRadius(0);
+            
+            arc.append("text")
+                .attr("transform", (d) => {
+                    return "translate(" + label.centroid(d) + ")";
+                })
+                .attr("text-anchor", "middle")
+                .text((d) => {
+                    return d.data.count > 0 ? d.data.group : ''
+                })
+                .style("font-size", 10);
+    
+
+            
             }
             else{
                 item.innerHTML+=`<p>No responses available for this zip code</p>`
             }
 
     }
+
+function createLegend(groups, colors){
+    const item = document.createElement("list"); 
+    let grouplist = Object.keys(groups); 
+    item.id = "legend"; 
+    const itemspace = document.getElementById("summary");
+    itemspace.appendChild(item);
+    grouplist.forEach(function(word, index){
+        item.innerHTML += `<li style = 'color:${colors[index]}'>${word}</li>`
+        console.log(word, colors[index])
+      });
+}
 
 
 
