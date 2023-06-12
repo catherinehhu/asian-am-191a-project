@@ -76,7 +76,8 @@ let shading = {
 
 let responseLength = 0; 
 function processData(results){
-    responseLength = results.length; 
+    responseLength = results.data.length; 
+    console.log(results)
     results.data.forEach(data => {
        if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90232") {
         shading["90232"]++;
@@ -119,14 +120,14 @@ L.geoJson(zips, {
     }).addTo(map);
 
 function getColor(d) {
-    console.log(shading)
-    let x = shading[d]; // need to fix proportions and colors and math  
-    console.log(shading[d])
-    return x >= 5 ? '#991f00' :
-           x >= 4  ? '#cc2900' :
-           x >= 3  ? '#ff3300' :
-           x >= 2  ? '#FF663F' :
-           x >= 1   ? '#FF967F' :
+    console.log(responseLength)
+    let x = shading[d]/responseLength; // need to fix proportions and colors and math  
+    console.log(x)
+    return x >= 0.8 ? '#991f00' :
+           x >= 0.6  ? '#cc2900' :
+           x >= 0.4 ? '#ff3300' :
+           x >= 0.2  ? '#FF663F' :
+           x > 0   ? '#FF967F' :
                       '#FFFFFF';
 }
 
@@ -222,19 +223,19 @@ legend.onAdd = function (map) {
 	div.style.fontFamily = "font-family: 'Archivo', sans-serif"; //FIX THIS WITH UPDATED FONT
 
 	div.innerHTML =
-		"<b>Key:</b> Number of Responses<br><br>";
+		"<b>Key:</b> Proportion of Total Responses from Each Zip Code<br><br>";
 
 	div.innerHTML +=
 		'<i style="background:#991f00; width: 18px; height: 18px; float: left; margin-right: 5px;"></i> ' +
-		"5+<br>" +
+		"0.8 &ndash; 1<br>" +
 		'<i style="background:#cc2900; width: 18px; height: 18px; float: left; margin-right: 5px;"></i> ' +
-		"4 &ndash; 5<br>" +
+		"0.6 &ndash; 0.8<br>" +
 		'<i style="background:#ff3300; width: 18px; height: 18px; float: left; margin-right: 5px;"></i> ' +
-		"3 &ndash; 4<br>" +
+		"0.4 &ndash; 0.6<br>" +
 		'<i style="background:#FF663F; width: 18px; height: 18px; float: left; margin-right: 5px;"></i> ' +
-        "2 &ndash; 3<br>" +
+        "0.2 &ndash; 0.4<br>" +
         '<i style="background:#FF967F; width: 18px; height: 18px; float: left; margin-right: 5px;"></i> ' +
-		"1 &ndash; 2<br>";
+		"0 &ndash; 0.2<br>";
 	return div;
 };
 legend.addTo(map);
