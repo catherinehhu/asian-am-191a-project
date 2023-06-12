@@ -220,34 +220,40 @@ geojson = L.geoJson(zips, {
 
 function createStory(results, currZip){
     const item = document.createElement("list"); 
-    item.id = "button"; 
+    item.id = "words"; 
     const itemspace = document.getElementById("stories");
     itemspace.appendChild(item); 
     
+    let count = 0; 
     results.data.forEach(data => {
         if (data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
     {
+        count++; 
         let text1 = ""; 
         let text2 = ""; 
         if (data["Please describe why you think this is the case."]){
             text1 = data["Please describe why you think this is the case."]; 
-            item.innerHTML = `<li>${text1}</li>`; 
+            item.innerHTML = `<p>Story ${count}</p><li>${text1}</li><p>hello</p>`; 
         }
 
         if (data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]){
             text2 = data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]; 
             item.innerHTML += "\n"; 
-            item.innerHTML += `<li>${text2}</li>`; }
+            item.innerHTML += `<li>${text2}</li> <hr>`; }
         }
     })
 }
 
 function createSummary(results, currZip){
     const item = document.createElement("list"); 
-    item.id = "button"; 
+    item.id = "title"; 
     const itemspace = document.getElementById("summary");
-    itemspace.appendChild(item); 
-    
+    itemspace.appendChild(item);
+    item.innerHTML += `<h3>Zip Code: ${currZip}</h3>`; 
+
+    item.id = "summarystuff"; 
+    itemspace.appendChild(item)
+    let count = 0; 
     results.data.forEach(data => {
         if (data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
     {
@@ -255,7 +261,7 @@ function createSummary(results, currZip){
         let text2 = ""; 
         if (data["Please describe why you think this is the case."]){
             text1 = data["Please describe why you think this is the case."]; 
-            item.innerHTML = `<li>${text1}</li>`; 
+            item.innerHTML += `<li>${text1}</li>`; 
         }
 
         if (data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]){
@@ -265,7 +271,6 @@ function createSummary(results, currZip){
         }
     })
 }
-
 
 function openTab(evt, tabname) {
     var i, tabcontent, tablinks;
@@ -281,7 +286,7 @@ function openTab(evt, tabname) {
     evt.currentTarget.className += " active";
   }
 
-  
+
   // Get the element with id="defaultOpen" and click on it
   document.getElementById("defaultOpen").click();
 
