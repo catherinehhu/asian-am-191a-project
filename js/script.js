@@ -257,3 +257,38 @@ info.update = function (zips) {
 };
 
 info.addTo(map);
+
+//modal stuff
+//get modal
+var modal2 = document.getElementById("myModal");
+
+//get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+//when the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal2.style.display = "none";
+}
+
+window.onload = function() {
+    modal2.style.display = "block";
+  };
+  
+window.onclick = function(event) {
+if (event.target == modal2) {
+    modal2.style.display = "none";
+}
+}
+
+//get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+//when the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal2.style.display = "grid";
+}
+
+//when the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal2.style.display = "none";
+}
