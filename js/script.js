@@ -290,7 +290,7 @@ function createSummary(results, currZip){
                     }
                     }
                 )
-            var svgCirWidth = 600, svgCirHeight = 300, radius = Math.min(svgCirWidth, svgCirHeight) / 2;
+            var svgCirWidth = 300, svgCirHeight = 300, radius = Math.min(svgCirWidth, svgCirHeight) / 2;
 
             const pieContainer = d3.select("#dataviz")
                 .append("svg")
@@ -300,7 +300,7 @@ function createSummary(results, currZip){
             //create group element to hold pie chart
             
             var g = pieContainer.append("g")
-                .attr("transform", "translate(" + 250 + "," + radius + ")");
+                .attr("transform", "translate(" + 150 + "," + radius + ")");
             
             
             var color = d3.scaleOrdinal()

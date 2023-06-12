@@ -29,7 +29,7 @@ header{
 .main{
     grid-area: main_content;
     grid-template-areas: "main_map panel";
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     display: grid;
     grid-gap: 5rem;
 
@@ -67,8 +67,8 @@ nav {
     margin-right: 0;
   }
 
-  nav li a {
-    display: block;
+  nav ul li a {
+    /* display: block; */
     color: black;
     text-align: center;
     padding: 14px 16px;
@@ -77,12 +77,11 @@ nav {
   }
 
 
-  nav li a:hover{
-    font-style: italic;
+  nav ul li a:hover{
+    text-decoration: underline;
   }
 
-  nav li a:active{
-    font-style: italic;
+  nav ul a:active{
     font-weight: bold;
   }
 

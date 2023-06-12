@@ -64,41 +64,42 @@ h1, h2{
 }
 
 nav {
-    display: flex; 
-  }
+  display: flex; 
+}
 
-  nav ul {
-    list-style-type: none; 
-    margin: 0;
-    padding: 0;
-    display: flex; 
-  }
+nav ul {
+  list-style-type: none; 
+  margin: 0;
+  padding: 0;
+  display: flex; 
+}
 
-  nav li {
-    margin-right: 10px; 
-  }
+nav li {
+  margin-right: 10px; 
+}
 
-  nav li:last-child {
-    margin-right: 0;
-  }
+nav li:last-child {
+  margin-right: 0;
+}
 
-  nav li a {
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-family: 'Open Sans', sans-serif;
-  }
+nav ul li a {
+  /* display: block; */
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-family: 'Open Sans', sans-serif;
+}
 
-  nav li a:hover{
-    font-style: italic;
-  }
 
-  nav li a:active{
-    font-style: italic;
-    font-weight: bold;
-  }
+nav ul li a:hover{
+  text-decoration: underline;
+}
+
+nav ul a:active{
+  font-weight: bold;
+}
+
 
  /* #theSurvey{
   grid-area: survey;
