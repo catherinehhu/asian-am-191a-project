@@ -60,6 +60,8 @@ function loadData(url){
 }
 
 loadData(dataUrl)
+document.getElementById("summary").innerHTML = "hello please click"; 
+
 
 let shading = {
     "90232": 0,
@@ -109,7 +111,7 @@ function processData(results){
        else if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90008") {
         shading["90008"]++;
        }
-        createStory(data.lat, data.lng, data)
+        // createStory(data.lat, data.lng, data)
     })
     // map.fitBounds(allLayers.getBounds());
     console.log(shading)
@@ -159,13 +161,48 @@ function highlightFeature(e) {
 }
 
 function resetHighlight(e) {
-    geojson.resetStyle(e.target);
+    // reset if mouseover is on a zipcode other than the one that's live 
+    if (e.target.feature.properties.zcta != liveZip){
+        geojson.resetStyle(e.target);
+    }
+    else if (prev != e.target){
+        geojson.resetStyle(e.target);
+    }
     info.update();
 }
+let prev = null; 
 
 function clickAZipCode(e) {
-    map.fitBounds(e.target.getBounds()); 
+    // map.fitBounds(e.target.getBounds());
+    if (liveZip == ""){ // only happens once 
+        console.log("whee")
+        prev = e.target; 
+    }
+    else if (e.target.feature.properties.zcta != liveZip){
+        console.log("clicked a diff zipcode") 
+        geojson.resetStyle(prev)
+    }
+    else{
+        console.log("same zipcode clicked")
+        prev = e.target; 
+    }
     liveZip = e.target.feature.properties.zcta; 
+
+    highlightFeature(e); 
+    loadData2(dataUrl)
+    document.getElementById("stories").innerHTML = ""; 
+    document.getElementById("summary").innerHTML = ""; 
+}
+
+function loadData2(url){
+    Papa.parse(url, {
+        header: true,
+        download: true,
+        complete: results => {
+            createStory(results, liveZip); 
+            createSummary(results, liveZip)
+        }
+    })
 }
 
 function onEachFeature(feature, layer) {
@@ -181,16 +218,52 @@ geojson = L.geoJson(zips, {
     onEachFeature: onEachFeature
 }).addTo(map);
 
-function createStory(lat,lng,data){
+function createStory(results, currZip){
     const item = document.createElement("list"); 
     item.id = "button"; 
     const itemspace = document.getElementById("stories");
     itemspace.appendChild(item); 
-    let text1 = data["Please describe why you think this is the case."];
-    let text2 = "Is there anything else you'd like to share? " + data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"];  
-        item.innerHTML = `<p>${text1}</p>`; 
-        item.innerHTML += "\n"; 
-        item.innerHTML += `<li>${text2}</li>`; 
+    
+    results.data.forEach(data => {
+        if (data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
+    {
+        let text1 = ""; 
+        let text2 = ""; 
+        if (data["Please describe why you think this is the case."]){
+            text1 = data["Please describe why you think this is the case."]; 
+            item.innerHTML = `<li>${text1}</li>`; 
+        }
+
+        if (data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]){
+            text2 = data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]; 
+            item.innerHTML += "\n"; 
+            item.innerHTML += `<li>${text2}</li>`; }
+        }
+    })
+}
+
+function createSummary(results, currZip){
+    const item = document.createElement("list"); 
+    item.id = "button"; 
+    const itemspace = document.getElementById("summary");
+    itemspace.appendChild(item); 
+    
+    results.data.forEach(data => {
+        if (data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
+    {
+        let text1 = ""; 
+        let text2 = ""; 
+        if (data["Please describe why you think this is the case."]){
+            text1 = data["Please describe why you think this is the case."]; 
+            item.innerHTML = `<li>${text1}</li>`; 
+        }
+
+        if (data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]){
+            text2 = data["Is there anything else you would like to share about your experiences with oil drilling in Los Angeles?"]; 
+            item.innerHTML += "\n"; 
+            item.innerHTML += `<li>${text2}</li>`; }
+        }
+    })
 }
 
 
