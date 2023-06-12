@@ -10,6 +10,7 @@ body{
 
 header{
     grid-area: header;
+    font-family: 'Open Sans', sans-serif;
 }
 
 #footer{
@@ -17,6 +18,7 @@ header{
     grid-area: footer;
     text-align: center;
     font-style: italic;
+    font-family: 'Open Sans', sans-serif;
 }
 
 
@@ -86,15 +88,16 @@ nav {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
   }
-
 
   nav li a:hover{
     font-style: italic;
   }
 
   nav li a:active{
-    text-decoration: underline;
+    font-style: italic;
+    font-weight: bold;
   }
 
  /* #theSurvey{

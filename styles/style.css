@@ -10,13 +10,18 @@ body{
 
 header{
     grid-area: header;
+    font-family: 'Open Sans', sans-serif;
 }
 
 #footer{
-    padding-top: 20px;
+    padding-top: 50px;
     grid-area: footer;
     text-align: center;
+    width: 100%;
+    color: black;
+    font-family: 'Open Sans', sans-serif;
     font-style: italic;
+    text-align: left;
 }
 
 
@@ -36,10 +41,7 @@ text-align: center;
 
 #the_map{
     height:80vh;
-    grid-area: main_map;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: repeat(3, minmax(0, 1fr));   
+    grid-area: main_map;  
 }
 
 h1, h2{
@@ -71,6 +73,7 @@ nav {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
   }
 
 
@@ -79,7 +82,8 @@ nav {
   }
 
   nav li a:active{
-    text-decoration: underline;
+    font-style: italic;
+    font-weight: bold;
   }
 
 
@@ -97,8 +101,8 @@ nav {
 .panel button {
   background-color: inherit;
   float: left;
-  border: 2px solid black;
-  color: black;
+  border: 2px solid #04aa6d;
+  color: #04aa6d;
   outline: none;
   cursor: pointer;
   padding: 14px 16px;
@@ -151,7 +155,7 @@ nav {
 /* legend box styling */
 .legend {
   line-height: 18px;
-  width: 100px;
+  width: 125px;
   color: #555;
 }
 
@@ -200,3 +204,9 @@ nav {
   color: black; 
   margin: 2px; 
 }
+
+ #theSurvey{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+} 
