@@ -39,7 +39,7 @@ text-align: center;
     grid-area: main_map;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: repeat(3, minmax(0, 1fr));    
+    grid-template-rows: repeat(3, minmax(0, 1fr));   
 }
 
 h1, h2{
@@ -87,11 +87,9 @@ nav {
     grid-area: panel; 
     overflow: auto; 
     height:80vh; 
-    padding:1rem; 
-    background-color: #dde7e8;
+    background-color: #ffffff;
     display: grid; 
     grid-template-rows: 1fr 5fr;
-
     grid-area: "buttons content";
   }
   
@@ -99,23 +97,28 @@ nav {
 .panel button {
   background-color: inherit;
   float: left;
-  border: none;
+  border: 2px solid black;
+  color: black;
   outline: none;
   cursor: pointer;
   padding: 14px 16px;
-  transition: 0.3s;
+  transition: 0.2s;
   font-size: 17px;
   font-family: 'Open Sans', sans-serif;
+  border-radius: 5px;
+  margin-left: 10px;
 }
 
 /* Change background color of buttons on hover */
 .panel button:hover {
-  background-color: #ddd;
+  background-color: #04aa6d;
+  color: white;
 }
 
 /* Create an active/current tablink class */
 .panel button.active {
-  background-color: #ccc;
+  background-color: #04aa6d;
+  color: white;
 }
 
 .buttons{
