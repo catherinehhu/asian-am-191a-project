@@ -225,7 +225,7 @@ function createStory(results, currZip){
     itemspace.appendChild(item); 
     
     let count = 0; 
-    let length = results.data.length; 
+    let length = shading[currZip]; 
     results.data.forEach(data => {
         if (data["Please select your preferred language / Elige el idioma preferido. "] == "English" && data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
     {
