@@ -25,17 +25,17 @@ In addition, this could also provide people with a framework to use for creating
 
 ## Features
 List the ready features here:
-- Pop-up
+- Popup
   - Loads upon arriving on the site, providing important context and information for the user before they begin navigating. 
-![Example screenshot](./img/screenshot.png)
+![Popup screenshot](./img/popup.png)
 
 - Map Functionalities
   - Choropleth map of nearby zip codes, based on proportion of total responses from a given zip code. 
   - Hovering displays of response counts 
   - Clickable zipcodes population of side panel 
-![Example screenshot](./img/screenshot.png)
+![Map functionalities screenshot](./img/map.png)
 
 - Map Side Panel 
   - Stories tab: scrollable list of all stories collected from respondents in a selected zip code. 
   - Summary tab: visualizations of aggregated information from respondents in a selected zip code, including demographics breakdown and sentiment overview. 
-![Example screenshot](./img/screenshot.png)
+![Side panel screenshot](./img/sidepanel.png)
