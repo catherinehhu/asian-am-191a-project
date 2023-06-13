@@ -101,8 +101,8 @@ nav {
 .panel button {
   background-color: inherit;
   float: left;
-  border: 2px solid #04aa6d;
-  color: #04aa6d;
+  border: 2px solid #005a83;
+  color: #005a83;
   outline: none;
   cursor: pointer;
   padding: 14px 16px;
@@ -115,13 +115,13 @@ nav {
 
 /* Change background color of buttons on hover */
 .panel button:hover {
-  background-color: #04aa6d;
+  background-color: #005a83;
   color: white;
 }
 
 /* Create an active/current tablink class */
 .panel button.active {
-  background-color: #04aa6d;
+  background-color: #005a83;
   color: white;
 }
 

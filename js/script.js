@@ -49,7 +49,7 @@ function loadData(url){
 }
 
 loadData(dataUrl)
-document.getElementById("stories").innerHTML = "Hover your mouse over the map to activate shading.<br><br>Click on any zip code to view community stories under the Stories tab. A graphical summary of responses will be displayed here in the Summary tab."; 
+document.getElementById("stories").innerHTML = "Hover your mouse over the map to activate shading.<br><br>Click on any zip code to view community stories here under the Stories tab. A graphical summary of responses will be displayed under the Summary tab."; 
 
 
 let shading = {
@@ -322,7 +322,7 @@ function createSummary(results, currZip){
             
             var color = d3.scaleOrdinal()
                 .domain(groups)
-                .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
+                .range(["#005a83", "#6f62aa", "#d15a9f", "#ff6966", "#ffa600", "#b33dc6", "#f46a9b"])
             
             var pie = d3.pie().value(function (d) {
                 return d.count;
