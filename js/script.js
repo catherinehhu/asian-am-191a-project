@@ -69,8 +69,6 @@ let responseLength = 0;
 function processData(results){
     responseLength = results.data.length; 
     console.log(results)
-    console.log("adjhsfglhjkds")
-    console.log(results.data["Do you think residing near oil drilling sites has affected your quality of living? "])
     results.data.forEach(data => {
        if(data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == "90232") {
         shading["90232"]++;
@@ -250,10 +248,14 @@ function createSummary(results, currZip){
     const itemspace = document.getElementById("summary");
     itemspace.appendChild(item);
     item.innerHTML += `<h3>Zip Code: ${currZip}</h3>`; 
-    item.id = "dataviz";
-    itemspace.appendChild(item); 
+
+
 
     if (shading[currZip] > 0){
+        item.id = "dataviz";
+    itemspace.appendChild(item); 
+    item.innerHTML +=  `<p><i>Demographics of Respondents from ${currZip}</i></p>`
+
             let groups = [
                 {"group": "White or Caucasian", "count": 0}, 
                 {"group": "Asian or Pacific Islander", "count": 0},
@@ -263,6 +265,8 @@ function createSummary(results, currZip){
                 {"group": "Multiracial or biracial", "count": 0}, 
                 {"group": "Prefer not to say", "count": 0}
             ]
+            let qualitycount = [0,0,0,0];
+
 
                 results.data.forEach(data => {
                     if (data["Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal."] == currZip){
@@ -287,9 +291,22 @@ function createSummary(results, currZip){
                         else if (data["Which of the following best describe you?"].includes("refer")){
                             groups[6]["count"]++
                         }
+                        if (data["Do you think residing near oil drilling sites has affected your quality of living? "].includes("positively")){
+                            qualitycount[0]++; 
+                        }
+                        else if(data["Do you think residing near oil drilling sites has affected your quality of living? "].includes("negatively")){
+                            qualitycount[1]++; 
+                        }
+                        else if(data["Do you think residing near oil drilling sites has affected your quality of living? "].includes("sure")){
+                            qualitycount[2]++; 
+                        } 
+                        else {
+                            qualitycount[3]++; 
+                        }
                     }
                     }
                 )
+                console.log(qualitycount)
             var svgCirWidth = 300, svgCirHeight = 300, radius = Math.min(svgCirWidth, svgCirHeight) / 2;
 
             const pieContainer = d3.select("#dataviz")
@@ -340,10 +357,22 @@ function createSummary(results, currZip){
                 .text((d) => {
                     return d.data.count > 0 ? d.data.group : ''
                 })
-                .style("font-size", 10);
-    
+                .style("font-size", 10)
+                .style('fill', 'white')
 
-            
+
+                item.id = "qual";
+                itemspace.appendChild(item); 
+
+                item.innerHTML+=`<p><i>In response to the question "Do you think residing near oil drilling sites has affected your quality of living?", here's what people in ${currZip} said:</i></p>`
+
+                item.innerHTML+=`<p>${qualitycount[0]} of ${shading[currZip]} said "Yes, positively".</p>`
+                item.innerHTML+=`<p>${qualitycount[1]} of ${shading[currZip]} said "Yes, negatively".</p>`
+                item.innerHTML+=`<p>${qualitycount[2]} of ${shading[currZip]} said "Not sure".</p>`
+                item.innerHTML+=`<p>${qualitycount[3]} of ${shading[currZip]} said "No, it has not impacted it".</p>`
+
+                
+                
             }
             else{
                 item.innerHTML+=`<p>No responses available for this zip code</p>`
@@ -351,16 +380,10 @@ function createSummary(results, currZip){
 
     }
 
-function createLegend(groups, colors){
-    const item = document.createElement("list"); 
-    let grouplist = Object.keys(groups); 
-    item.id = "legend"; 
-    const itemspace = document.getElementById("summary");
-    itemspace.appendChild(item);
-    grouplist.forEach(function(word, index){
-        item.innerHTML += `<li style = 'color:${colors[index]}'>${word}</li>`
-        console.log(word, colors[index])
-      });
+function sum(array, start, end) {
+    var total = 0;
+    for(var i=start; i<end; i++) total += array[i];
+    return total;
 }
 
 
