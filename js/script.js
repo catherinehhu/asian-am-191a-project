@@ -219,7 +219,7 @@ function createStory(results, currZip){
         if (data['Please provide the zip code of your primary residence. / Por favor ingrese el còdigo postal de su residencia principal.'] == currZip)
     {
         count++; 
-        item.innerHTML += `<p>Story ${count} of ${length}</p>`; 
+        item.innerHTML += `<p><i>Story ${count} of ${length}</i></p>`; 
         item.innerHTML += `<p><strong>Race: </strong>${data["Which of the following best describe you?"]}</p>`
         item.innerHTML += `<p><strong>Aware of nearby oil sites: </strong>${data["Are you aware of any oil drilling sites near the primary residence you mentioned above? "]}</p>`
         console.log(data["Do you think residing near oil drilling sites has affected your quality of living? "])
