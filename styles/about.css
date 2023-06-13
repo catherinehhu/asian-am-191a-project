@@ -104,3 +104,11 @@ nav ul a:active{
  /* #theSurvey{
   grid-area: survey;
 } */
+
+/* make logo fit nav bar */
+img {
+  height: 70px;
+  margin: 0;
+  vertical-align:top;
+  float: left;
+}
