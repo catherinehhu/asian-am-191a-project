@@ -49,7 +49,7 @@ function loadData(url){
 }
 
 loadData(dataUrl)
-document.getElementById("summary").innerHTML = "Hover your mouse over the map to activate shading.<br><br>Click on any zip code to view community stories under the Stories tab. A graphical summary of responses will be displayed here in the Summary tab."; 
+document.getElementById("stories").innerHTML = "Hover your mouse over the map to activate shading.<br><br>Click on any zip code to view community stories under the Stories tab. A graphical summary of responses will be displayed here in the Summary tab."; 
 
 
 let shading = {
